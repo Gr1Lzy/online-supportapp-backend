@@ -4,7 +4,6 @@ import com.gitlab.microservice.dto.admin.AdminUserCreateRequestDto;
 import com.gitlab.microservice.dto.admin.AdminUserResponseDto;
 import com.gitlab.microservice.dto.admin.AdminUserUpdateRequestDto;
 import com.gitlab.microservice.dto.user.UserRequestDto;
-import com.gitlab.microservice.dto.user.UserResponseDto;
 import com.gitlab.microservice.entity.User;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
