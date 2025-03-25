@@ -19,6 +19,10 @@
     <name>online-supportapp-backend</name>
     <description>Parent POM for IT Support Application</description>
 
+    <modules>
+        <module>user-service-backend</module>
+    </modules>
+
     <properties>
         <!-- Java -->
         <java.version>17</java.version>
