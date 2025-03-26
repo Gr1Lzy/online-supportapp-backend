@@ -1,4 +1,4 @@
-db = db.getSiblingDB("supportAppBD");
+db = db.getSiblingDB("supportAppDB");
 
 db.users.insertOne({
     email: 'admin@example.com',
@@ -8,6 +8,7 @@ db.users.insertOne({
     role: 'ROLE_ADMIN',
     created_at: new Date(),
     updated_at: new Date(),
+    _class: 'com.gitlab.microservice.entity.User'
 });
 
 db.users.insertOne({
@@ -18,4 +19,5 @@ db.users.insertOne({
     role: 'ROLE_USER',
     created_at: new Date(),
     updated_at: new Date(),
+    _class: 'com.gitlab.microservice.entity.User'
 });

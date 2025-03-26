@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void create(UserRequestDto requestDto) {
-    User user = USER_MAPPER.toEntity(requestDto);
+    User user = USER_MAPPER.toEntity(requestDto).init();
 
     if (userRepository.existsByEmailIgnoreCase(user.getEmail())) {
       throw new EntityExistException("User already exists");
