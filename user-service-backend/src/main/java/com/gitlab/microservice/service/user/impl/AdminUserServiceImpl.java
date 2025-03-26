@@ -5,6 +5,7 @@ import com.gitlab.microservice.dto.admin.AdminUserResponseDto;
 import com.gitlab.microservice.dto.admin.AdminUserUpdateRequestDto;
 import com.gitlab.microservice.entity.User;
 import com.gitlab.microservice.exception.EntityExistException;
+import com.gitlab.microservice.exception.EntityNotFoundException;
 import com.gitlab.microservice.repository.UserRepository;
 import com.gitlab.microservice.service.user.AdminUserService;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,7 @@ public class AdminUserServiceImpl implements AdminUserService {
   @Override
   public AdminUserResponseDto findById(String id) {
     User user = userRepository.findById(id)
-        .orElseThrow(() -> new EntityExistException("User not found"));
+        .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
     return USER_MAPPER.toAdminDto(user);
   }
@@ -53,7 +54,7 @@ public class AdminUserServiceImpl implements AdminUserService {
   @Override
   public void update(String id, AdminUserUpdateRequestDto requestDto) {
     User user = userRepository.findById(id)
-        .orElseThrow(() -> new EntityExistException("User not found"));
+        .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
     USER_MAPPER.updateUserFromDto(requestDto, user);
 

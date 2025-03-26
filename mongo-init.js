@@ -1,6 +1,7 @@
 db = db.getSiblingDB("supportAppDB");
 
 db.users.insertOne({
+    _id: "1",
     email: 'admin@example.com',
     password: '$2a$12$M4rPcVjVADFktrrmgArNM.mn6OwUhBZ/4JNiIg22pwdwuD6sgldnO',
     first_name: 'admin',
@@ -12,6 +13,7 @@ db.users.insertOne({
 });
 
 db.users.insertOne({
+    _id: "2",
     email: 'user@example.com',
     password: '$2a$12$/tdsCkZKxO9RHkJtjpxA6urLfCBuXOo/Gh18djljNUKqH3R03Mq6O',
     first_name: 'user',

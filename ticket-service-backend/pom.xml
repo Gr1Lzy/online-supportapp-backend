@@ -15,4 +15,12 @@
     <artifactId>ticket-service-backend</artifactId>
     <name>Ticket Service</name>
     <description>Ticket microservice for IT support application</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>4.2.1</version>
+        </dependency>
+    </dependencies>
 </project>
