@@ -1,6 +1,6 @@
 package com.gitlab.microservice.client;
 
-import com.gitlab.microservice.dto.UserResponseDto;
+import com.gitlab.microservice.dto.user.UserResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

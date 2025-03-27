@@ -15,6 +15,6 @@ public class UserApplication implements CommandLineRunner {
 
   @Override
   public void run(String... args) {
-    log.info("http://localhost:8080/swagger-ui.html");
+    log.info("http://localhost:8081/swagger-ui.html");
   }
 }

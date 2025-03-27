@@ -1,7 +1,7 @@
 package com.gitlab.microservice.util;
 
 import com.gitlab.microservice.client.UserClient;
-import com.gitlab.microservice.dto.UserResponseDto;
+import com.gitlab.microservice.dto.user.UserResponseDto;
 import com.gitlab.microservice.excetpion.EntityNotFoundException;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;

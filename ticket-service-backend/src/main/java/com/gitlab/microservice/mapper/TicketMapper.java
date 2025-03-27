@@ -1,7 +1,7 @@
 package com.gitlab.microservice.mapper;
 
-import com.gitlab.microservice.dto.TicketRequestDto;
-import com.gitlab.microservice.dto.TicketResponseDto;
+import com.gitlab.microservice.dto.ticket.TicketRequestDto;
+import com.gitlab.microservice.dto.ticket.TicketResponseDto;
 import com.gitlab.microservice.entity.Ticket;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

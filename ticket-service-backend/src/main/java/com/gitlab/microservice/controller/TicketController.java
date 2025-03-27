@@ -1,7 +1,7 @@
 package com.gitlab.microservice.controller;
 
-import com.gitlab.microservice.dto.TicketRequestDto;
-import com.gitlab.microservice.dto.TicketResponseDto;
+import com.gitlab.microservice.dto.ticket.TicketRequestDto;
+import com.gitlab.microservice.dto.ticket.TicketResponseDto;
 import com.gitlab.microservice.service.TicketService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

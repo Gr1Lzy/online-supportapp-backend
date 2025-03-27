@@ -1,7 +1,7 @@
 package com.gitlab.microservice.service;
 
-import com.gitlab.microservice.dto.TicketRequestDto;
-import com.gitlab.microservice.dto.TicketResponseDto;
+import com.gitlab.microservice.dto.ticket.TicketRequestDto;
+import com.gitlab.microservice.dto.ticket.TicketResponseDto;
 import com.gitlab.microservice.entity.Ticket;
 import com.gitlab.microservice.excetpion.EntityNotFoundException;
 import com.gitlab.microservice.repository.TicketRepository;

@@ -1,6 +1,8 @@
-package com.gitlab.microservice.dto;
+package com.gitlab.microservice.dto.ticket;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gitlab.microservice.dto.comment.CommentResponseDto;
+import com.gitlab.microservice.dto.user.UserResponseDto;
 import com.gitlab.microservice.entity.TicketStatus;
 import lombok.Data;
 
