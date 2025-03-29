@@ -18,6 +18,10 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+  private static final String STATUS = "status";
+  private static final String ERROR = "error";
+  private static final String MESSAGE = "message";
+
   @ExceptionHandler(EntityExistException.class)
   public ResponseEntity<Map<String, Object>> handleEntityExist(EntityExistException exception) {
     String rawMessage = exception.getMessage();
@@ -32,9 +36,9 @@ public class GlobalExceptionHandler {
     }
 
     Map<String, Object> error = Map.of(
-        "status", HttpStatus.BAD_REQUEST.value(),
-        "error", exception.getClass().getSimpleName(),
-        "message", errorMessage
+        STATUS, HttpStatus.BAD_REQUEST.value(),
+        ERROR, exception.getClass().getSimpleName(),
+        MESSAGE, errorMessage
     );
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
   }
@@ -42,9 +46,9 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<Map<String, Object>> handleValidation(MethodArgumentNotValidException exception) {
     Map<String, Object> errorResponse = Map.of(
-        "status", HttpStatus.BAD_REQUEST.value(),
-        "error", exception.getClass().getSimpleName(),
-        "message", getErrors(exception)
+        STATUS, HttpStatus.BAD_REQUEST.value(),
+        ERROR, exception.getClass().getSimpleName(),
+        MESSAGE, getErrors(exception)
     );
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
@@ -53,5 +57,15 @@ public class GlobalExceptionHandler {
     return exception.getAllErrors().stream()
         .map(MessageSourceResolvable::getDefaultMessage)
         .toList();
+  }
+
+  @ExceptionHandler(AuthenticationException.class)
+  public ResponseEntity<Map<String, Object>> handleAuthenticationException(AuthenticationException ex) {
+    Map<String, Object> errorResponse = Map.of(
+        STATUS, HttpStatus.UNAUTHORIZED.value(),
+        ERROR, ex.getClass().getSimpleName(),
+        MESSAGE, ex.getMessage()
+    );
+    return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
   }
 }

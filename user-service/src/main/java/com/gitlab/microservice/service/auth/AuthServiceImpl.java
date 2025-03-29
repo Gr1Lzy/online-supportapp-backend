@@ -1,13 +1,17 @@
 package com.gitlab.microservice.service.auth;
 
-import com.gitlab.microservice.dto.UserCreateRequestDto;
+import com.gitlab.microservice.dto.auth.AuthRequestDto;
+import com.gitlab.microservice.dto.auth.AuthResponseDto;
+import com.gitlab.microservice.exception.AuthenticationException;
+import com.gitlab.microservice.util.KeycloakClientFactory;
+import com.gitlab.microservice.dto.user.UserCreateRequestDto;
 import com.gitlab.microservice.exception.EntityExistException;
-import com.gitlab.microservice.util.UserRepresentationUtil;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.UsersResource;
+import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +20,8 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 
 import static com.gitlab.microservice.entity.UserRole.ROLE_USER;
+import static com.gitlab.microservice.util.UserUtil.extractUserId;
+import static com.gitlab.microservice.util.UserUtil.getUserRepresentation;
 
 @Slf4j
 @Service
@@ -27,9 +33,11 @@ public class AuthServiceImpl implements AuthService {
 
   private final Keycloak keycloak;
 
+  private final KeycloakClientFactory keycloakClientFactory;
+
   @Override
   public void register(UserCreateRequestDto requestDto) {
-    UserRepresentation user = UserRepresentationUtil.getUserRepresentation(requestDto);
+    UserRepresentation user = getUserRepresentation(requestDto);
 
     UsersResource usersResource = keycloak.realm(realm).users();
 
@@ -54,11 +62,25 @@ public class AuthServiceImpl implements AuthService {
     }
   }
 
-  private String extractUserId(Response response) {
-    String location = response.getHeaderString("Location");
-    if (location == null) {
-      throw new EntityExistException("Failed to create Keycloak user");
+
+  @Override
+  public AuthResponseDto login(AuthRequestDto authRequestDto) {
+    try (Keycloak userKeycloak = keycloakClientFactory.createUserClient(
+        authRequestDto.getUsername(),
+        authRequestDto.getPassword())) {
+
+      AccessTokenResponse tokenResponse = userKeycloak.tokenManager().getAccessToken();
+
+      return AuthResponseDto.builder()
+          .tokenType(tokenResponse.getTokenType())
+          .accessToken(tokenResponse.getToken())
+          .refreshToken(tokenResponse.getRefreshToken())
+          .expiresIn(tokenResponse.getExpiresIn())
+          .build();
+
+    } catch (Exception e) {
+      log.error("Authentication failed for user {}: {}", authRequestDto.getUsername(), e.getMessage());
+      throw new AuthenticationException("Invalid credentials");
     }
-    return location.substring(location.lastIndexOf("/") + 1);
   }
 }

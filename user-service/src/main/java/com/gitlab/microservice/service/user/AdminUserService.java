@@ -1,8 +1,8 @@
 package com.gitlab.microservice.service.user;
 
-import com.gitlab.microservice.dto.RoleRequestDto;
-import com.gitlab.microservice.dto.UserResponseDto;
-import com.gitlab.microservice.dto.UserUpdateRequestDto;
+import com.gitlab.microservice.dto.role.RoleRequestDto;
+import com.gitlab.microservice.dto.user.UserResponseDto;
+import com.gitlab.microservice.dto.user.UserUpdateRequestDto;
 
 import java.util.List;
 

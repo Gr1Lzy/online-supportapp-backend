@@ -1,4 +1,4 @@
-package com.gitlab.microservice.dto;
+package com.gitlab.microservice.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

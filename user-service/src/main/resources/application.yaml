@@ -1,13 +1,24 @@
 spring:
   application:
     name: user-service
+  config:
+    import: optional:file:.env[.properties]
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${keycloak.serverUrl}/realms/${keycloak.realm}
 
 server:
   port: 1111
 
 keycloak:
+  client:
+    id: ${CLIENT_ID}
+    secret: ${CLIENT_SECRET}
   admin:
-    clientId: admin-cli
-    clientSecret: cwixIcZRsdsqD5Rir8skSqo1bRDrzTDH
-  realm: support-application-user
-  serverUrl: http://localhost:8080
+    id: ${ADMIN_ID}
+    secret: ${ADMIN_SECRET}
+  realm: ${REALM_NAME}
+  serverUrl: ${SERVER_URL}

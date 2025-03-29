@@ -1,4 +1,4 @@
-package com.gitlab.microservice.dto;
+package com.gitlab.microservice.dto.role;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gitlab.microservice.entity.UserRole;

@@ -1,7 +1,7 @@
 package com.gitlab.microservice.mapper;
 
-import com.gitlab.microservice.dto.UserResponseDto;
-import com.gitlab.microservice.dto.UserUpdateRequestDto;
+import com.gitlab.microservice.dto.user.UserResponseDto;
+import com.gitlab.microservice.dto.user.UserUpdateRequestDto;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;

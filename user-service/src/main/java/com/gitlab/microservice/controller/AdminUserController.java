@@ -1,13 +1,14 @@
 package com.gitlab.microservice.controller;
 
-import com.gitlab.microservice.dto.UserResponseDto;
-import com.gitlab.microservice.dto.UserUpdateRequestDto;
+import com.gitlab.microservice.dto.user.UserResponseDto;
+import com.gitlab.microservice.dto.user.UserUpdateRequestDto;
 import com.gitlab.microservice.service.user.AdminUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @Tag(name = "Admin User Controller")
 @RestController
+@PreAuthorize("hasRole('ADMIN')")
 @RequiredArgsConstructor
 @RequestMapping("/api/admin/users")
 public class AdminUserController {
