@@ -2,6 +2,7 @@ package com.gitlab.microservice.controller;
 
 import com.gitlab.microservice.dto.auth.AuthRequestDto;
 import com.gitlab.microservice.dto.auth.AuthResponseDto;
+import com.gitlab.microservice.dto.auth.RefreshRequestDto;
 import com.gitlab.microservice.dto.user.UserCreateRequestDto;
 import com.gitlab.microservice.service.auth.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,5 +36,11 @@ public class AuthController {
   @PostMapping("/login")
   public ResponseEntity<AuthResponseDto> login(@RequestBody @Valid AuthRequestDto requestDto) {
     return ResponseEntity.ok(authService.login(requestDto));
+  }
+
+  @Operation(summary = "Refresh token")
+  @PostMapping("/refresh")
+  public ResponseEntity<AuthResponseDto> refresh(@RequestBody @Valid RefreshRequestDto requestDto) {
+    return ResponseEntity.ok(authService.refresh(requestDto));
   }
 }

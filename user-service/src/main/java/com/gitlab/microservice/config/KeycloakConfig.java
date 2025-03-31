@@ -1,6 +1,6 @@
 package com.gitlab.microservice.config;
 
-import com.gitlab.microservice.util.KeycloakClientFactory;
+import com.gitlab.microservice.util.KeycloakAuthClient;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.admin.client.Keycloak;
 import org.springframework.context.annotation.Bean;
@@ -10,10 +10,10 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class KeycloakConfig {
 
-  private final KeycloakClientFactory keycloakClientFactory;
+  private final KeycloakAuthClient keycloakAuthClient;
 
   @Bean
   public Keycloak keycloak() {
-    return keycloakClientFactory.createAdminClient();
+    return keycloakAuthClient.createAdminClient();
   }
 }

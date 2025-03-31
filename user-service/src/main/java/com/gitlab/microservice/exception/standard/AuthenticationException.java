@@ -1,4 +1,4 @@
-package com.gitlab.microservice.exception;
+package com.gitlab.microservice.exception.standard;
 
 import lombok.experimental.StandardException;
 

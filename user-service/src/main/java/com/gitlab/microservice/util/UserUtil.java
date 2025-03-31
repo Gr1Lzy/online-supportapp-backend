@@ -1,7 +1,7 @@
 package com.gitlab.microservice.util;
 
 import com.gitlab.microservice.dto.user.UserCreateRequestDto;
-import com.gitlab.microservice.exception.EntityExistException;
+import com.gitlab.microservice.exception.standard.EntityExistException;
 import jakarta.ws.rs.core.Response;
 import lombok.experimental.UtilityClass;
 import org.keycloak.representations.idm.CredentialRepresentation;

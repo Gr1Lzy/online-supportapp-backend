@@ -2,6 +2,10 @@ package com.gitlab.microservice.exception;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gitlab.microservice.exception.standard.AuthenticationException;
+import com.gitlab.microservice.exception.standard.EntityExistException;
+import com.gitlab.microservice.exception.standard.EntityNotFoundException;
+import com.gitlab.microservice.exception.standard.InvalidTokenException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -22,8 +26,12 @@ public class GlobalExceptionHandler {
   private static final String ERROR = "error";
   private static final String MESSAGE = "message";
 
-  @ExceptionHandler(EntityExistException.class)
-  public ResponseEntity<Map<String, Object>> handleEntityExist(EntityExistException exception) {
+  @ExceptionHandler(value = {
+      EntityExistException.class,
+      InvalidTokenException.class,
+      EntityNotFoundException.class
+  })
+  public ResponseEntity<Map<String, Object>> handleEntityExist(Exception exception) {
     String rawMessage = exception.getMessage();
     String errorMessage = rawMessage;
 

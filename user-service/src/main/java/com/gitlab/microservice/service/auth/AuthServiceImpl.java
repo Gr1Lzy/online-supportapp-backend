@@ -2,10 +2,12 @@ package com.gitlab.microservice.service.auth;
 
 import com.gitlab.microservice.dto.auth.AuthRequestDto;
 import com.gitlab.microservice.dto.auth.AuthResponseDto;
-import com.gitlab.microservice.exception.AuthenticationException;
-import com.gitlab.microservice.util.KeycloakClientFactory;
+import com.gitlab.microservice.dto.auth.RefreshRequestDto;
 import com.gitlab.microservice.dto.user.UserCreateRequestDto;
-import com.gitlab.microservice.exception.EntityExistException;
+import com.gitlab.microservice.exception.standard.AuthenticationException;
+import com.gitlab.microservice.exception.standard.EntityExistException;
+import com.gitlab.microservice.exception.standard.InvalidTokenException;
+import com.gitlab.microservice.util.KeycloakAuthClient;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +35,7 @@ public class AuthServiceImpl implements AuthService {
 
   private final Keycloak keycloak;
 
-  private final KeycloakClientFactory keycloakClientFactory;
+  private final KeycloakAuthClient keycloakAuthClient;
 
   @Override
   public void register(UserCreateRequestDto requestDto) {
@@ -65,7 +67,7 @@ public class AuthServiceImpl implements AuthService {
 
   @Override
   public AuthResponseDto login(AuthRequestDto authRequestDto) {
-    try (Keycloak userKeycloak = keycloakClientFactory.createUserClient(
+    try (Keycloak userKeycloak = keycloakAuthClient.createUserClient(
         authRequestDto.getUsername(),
         authRequestDto.getPassword())) {
 
@@ -81,6 +83,22 @@ public class AuthServiceImpl implements AuthService {
     } catch (Exception e) {
       log.error("Authentication failed for user {}: {}", authRequestDto.getUsername(), e.getMessage());
       throw new AuthenticationException("Invalid credentials");
+    }
+  }
+
+  @Override
+  public AuthResponseDto refresh(RefreshRequestDto requestDto) {
+    try {
+      AccessTokenResponse tokenResponse = keycloakAuthClient.getRefreshToken(requestDto.getRefreshToken());
+
+      return AuthResponseDto.builder()
+          .tokenType(tokenResponse.getTokenType())
+          .accessToken(tokenResponse.getToken())
+          .refreshToken(tokenResponse.getRefreshToken())
+          .expiresIn(tokenResponse.getExpiresIn())
+          .build();
+    } catch (Exception e) {
+      throw new InvalidTokenException("Invalid refresh token");
     }
   }
 }

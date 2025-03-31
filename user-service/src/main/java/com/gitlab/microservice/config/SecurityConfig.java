@@ -2,6 +2,7 @@ package com.gitlab.microservice.config;
 
 import com.gitlab.microservice.exception.custom.CustomAccessDeniedHandler;
 import com.gitlab.microservice.exception.custom.CustomAuthenticationFailureHandler;
+import com.gitlab.microservice.exception.custom.CustomJwtAuthEntryPoint;
 import com.gitlab.microservice.util.JwtAuthConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,7 @@ public class SecurityConfig {
   private final JwtAuthConverter jwtAuthConverter;
   private final CustomAuthenticationFailureHandler authenticationFailureHandler;
   private final CustomAccessDeniedHandler accessDeniedHandler;
+  private final CustomJwtAuthEntryPoint jwtAuthEntryPoint;
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -31,11 +33,10 @@ public class SecurityConfig {
         .csrf(AbstractHttpConfigurer::disable)
 
         .authorizeHttpRequests(request -> request
-            .requestMatchers(
-                "/v3/api-docs/**",
-                "/swagger-ui/**",
-                "/swagger-ui.html").permitAll()
+            .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
             .requestMatchers("/api/auth/**").permitAll()
+            .requestMatchers("/api/users/**").hasRole("USER")
+            .requestMatchers("/api/admin/**").hasRole("ADMIN")
             .anyRequest().authenticated()
         )
 
@@ -44,9 +45,9 @@ public class SecurityConfig {
             .accessDeniedHandler(accessDeniedHandler)
         )
 
-
         .oauth2ResourceServer(oauth2 -> oauth2
             .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthConverter))
+            .authenticationEntryPoint(jwtAuthEntryPoint)
         )
 
         .sessionManagement(session -> session
