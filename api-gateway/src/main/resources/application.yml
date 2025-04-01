@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: api-gateway
+  config:
+    import: optional:file:.env[.properties]
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: user-service-route
+          uri: http://localhost:1111
+          predicates:
+            - Path=/api/users/**, /api/auth/**, /api/admin/**
+
+        - id: ticket-service-route
+          uri: http://localhost:2222
+          predicates:
+            - Path=/api/tickets/**
+
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${SERVER_URL}/realms/${REALM_NAME}
+server:
+  port: 8090
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: user-service
+        url: /user-service/v3/api-docs
+      - name: ticket-service
+        url: /ticket-service/v3/api-docs
+  api-docs:
+    enabled: true

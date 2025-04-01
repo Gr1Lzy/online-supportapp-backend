@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: ticket-service
+  config:
+    import: optional:file:.env[.properties]
+  data:
+    mongodb:
+      uri: mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@localhost:27017/${MONGODB_DATABASE}?authSource=admin
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${SERVER_URL}/realms/${REALM_NAME}
+
+server:
+  port: 2222
+
+user:
+  service:
+    url: http://localhost:1111
+
+logging:
+  level:
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
