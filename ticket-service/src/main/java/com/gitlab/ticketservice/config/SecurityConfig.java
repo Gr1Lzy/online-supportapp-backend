@@ -3,6 +3,7 @@ package com.gitlab.ticketservice.config;
 import com.gitlab.ticketservice.exception.custom.CustomAccessDeniedHandler;
 import com.gitlab.ticketservice.exception.custom.CustomJwtAuthEntryPoint;
 import com.gitlab.ticketservice.util.JwtAuthConverter;
+import jakarta.ws.rs.HttpMethod;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +33,9 @@ public class SecurityConfig {
 
         .authorizeHttpRequests(request -> request
             .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             .requestMatchers("/api/tickets/**").hasRole("USER")
+            .requestMatchers("/api/support/tickets/**").hasRole("SUPPORT")
         )
 
         .exceptionHandling(ex -> ex

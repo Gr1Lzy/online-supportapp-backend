@@ -41,8 +41,15 @@ public class TicketController {
   }
 
   @Operation(summary = "Find ticket by id")
-  @GetMapping("/{id}")
-  public ResponseEntity<TicketResponseDto> findById(@PathVariable String id) {
-    return ResponseEntity.ok(ticketService.findById(id));
+  @GetMapping("/{ticketId}")
+  public ResponseEntity<TicketResponseDto> findById(@PathVariable String ticketId) {
+    return ResponseEntity.ok(ticketService.findById(ticketId));
+  }
+
+  @Operation(summary = "Assign ticket on me")
+  @PostMapping("/{ticketId}/assign-on-me")
+  public ResponseEntity<Object> assignOnMe(@PathVariable String ticketId) {
+    ticketService.assignOnMe(ticketId);
+    return ResponseEntity.ok().build();
   }
 }

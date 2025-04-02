@@ -6,6 +6,7 @@ import com.gitlab.ticketservice.entity.Ticket;
 import com.gitlab.ticketservice.exception.EntityNotFoundException;
 import com.gitlab.ticketservice.repository.TicketRepository;
 import com.gitlab.ticketservice.util.UserServiceHelper;
+import com.gitlab.ticketservice.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -53,9 +54,20 @@ public class TicketServiceImpl implements TicketService {
   @Override
   public void create(TicketRequestDto requestDto) {
     Ticket ticket = TICKET_MAPPER.toEntity(requestDto).init();
+    String userId = UserUtil.getCurrentUserId();
+    ticket.setReporterId(userId);
 
-    userServiceHelper.userExistsByIdIfNotNull(requestDto.getReporterId());
     userServiceHelper.userExistsByIdIfNotNull(requestDto.getAssigneeId());
+
+    ticketRepository.save(ticket);
+  }
+
+  @Override
+  public void assignOnMe(String ticketId) {
+    Ticket ticket = ticketRepository.findById(ticketId)
+        .orElseThrow(() -> new EntityNotFoundException("Ticket not found"));
+
+    ticket.setAssigneeId(UserUtil.getCurrentUserId());
 
     ticketRepository.save(ticket);
   }
