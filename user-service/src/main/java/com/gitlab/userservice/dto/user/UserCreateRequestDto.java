@@ -10,16 +10,16 @@ import lombok.Data;
 @Data
 public class UserCreateRequestDto {
 
+  @Schema(example = "username")
+  @NotBlank(message = "Username is required")
+  @JsonProperty(value = "username")
+  private String username;
+
   @Schema(example = "example@example.com")
   @NotBlank(message = "Email is required")
   @Email(message = "Email is not valid")
   @JsonProperty(value = "email")
   private String email;
-
-  @Schema(example = "username")
-  @NotBlank(message = "Username is required")
-  @JsonProperty(value = "username")
-  private String username;
 
   @Schema(example = "password")
   @NotBlank(message = "Password is required")

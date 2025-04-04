@@ -1,11 +1,11 @@
-package com.gitlab.ticketservice.dto.ticket;
+package com.gitlab.ticketservice.dto.log;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gitlab.ticketservice.dto.user.UserResponseDto;
 import lombok.Data;
 
 @Data
-public class TicketLogResponseDto {
+public class LogResponseDto {
 
   @JsonProperty("action")
   private String action;
