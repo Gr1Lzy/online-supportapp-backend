@@ -8,7 +8,9 @@ public interface TicketService {
 
   Page<TicketResponseDto> findAll(Integer page, Integer size);
 
-  TicketResponseDto findById(String id);
+  TicketResponseDto findById(String ticketId);
 
   void create(TicketRequestDto requestDto);
+
+  void assignOnMe(String ticketId);
 }

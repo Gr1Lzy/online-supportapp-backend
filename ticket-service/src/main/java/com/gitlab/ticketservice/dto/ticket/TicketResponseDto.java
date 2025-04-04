@@ -2,6 +2,7 @@ package com.gitlab.ticketservice.dto.ticket;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gitlab.ticketservice.dto.comment.CommentResponseDto;
+import com.gitlab.ticketservice.dto.log.LogResponseDto;
 import com.gitlab.ticketservice.dto.user.UserResponseDto;
 import com.gitlab.ticketservice.entity.TicketStatus;
 import lombok.Data;
@@ -33,7 +34,7 @@ public class TicketResponseDto {
   private List<CommentResponseDto> comments;
 
   @JsonProperty("logs")
-  private List<TicketLogResponseDto> logs;
+  private List<LogResponseDto> logs;
 
   @JsonProperty("created_at")
   private String createdAt;

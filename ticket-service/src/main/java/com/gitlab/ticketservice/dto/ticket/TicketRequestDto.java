@@ -20,9 +20,4 @@ public class TicketRequestDto {
   @Schema(example = "1")
   @JsonProperty("assignee_id")
   private String assigneeId;
-
-  @Schema(example = "1")
-  @NotBlank(message = "Reporter ID is required")
-  @JsonProperty("reporter_id")
-  private String reporterId;
 }

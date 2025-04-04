@@ -20,18 +20,6 @@ spring:
           predicates:
             - Path=/api/tickets/**
 
-      globalcors:
-        corsConfigurations:
-          '[/**]':
-            allowedOrigins: "*"
-            allowedMethods: "*"
-            allowedHeaders: "*"
-
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: ${SERVER_URL}/realms/${REALM_NAME}
 server:
   port: 8090
 
