@@ -41,6 +41,20 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
   }
 
+  @ExceptionHandler(TicketSendMessageException.class)
+  public ResponseEntity<Map<String, Object>> handleTicketSendMessageException(TicketSendMessageException exception,
+                                                                              HttpServletRequest request) {
+
+    Map<String, Object> error = createErrorResponse(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        exception.getClass().getSimpleName(),
+        exception.getMessage(),
+        request
+    );
+
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+  }
+
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<Map<String, Object>> handleValidation(MethodArgumentNotValidException exception,
                                                               HttpServletRequest request) {
