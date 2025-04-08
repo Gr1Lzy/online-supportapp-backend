@@ -3,9 +3,11 @@ package com.gitlab.ticketservice.entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -29,14 +31,16 @@ public class Ticket extends AbstractEntity {
   @Field("status")
   private TicketStatus status;
 
-  @Field("comments")
+  @DBRef
   private List<Comment> comments;
 
   @Field("logs")
-  private List<TicketLog> logs;
+  private List<Log> logs;
 
   public Ticket init() {
-    this.status = TicketStatus.OPENED;
+    status = TicketStatus.OPENED;
+    comments = new ArrayList<>();
+    logs = new ArrayList<>();
     return this;
   }
 }

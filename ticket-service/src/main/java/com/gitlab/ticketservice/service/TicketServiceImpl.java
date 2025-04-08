@@ -4,6 +4,7 @@ import com.gitlab.ticketservice.dto.ticket.TicketRequestDto;
 import com.gitlab.ticketservice.dto.ticket.TicketResponseDto;
 import com.gitlab.ticketservice.entity.Ticket;
 import com.gitlab.ticketservice.exception.EntityNotFoundException;
+import com.gitlab.ticketservice.mapper.context.UserMappingContext;
 import com.gitlab.ticketservice.repository.TicketRepository;
 import com.gitlab.ticketservice.util.UserServiceHelper;
 import com.gitlab.ticketservice.util.UserUtil;
@@ -27,17 +28,20 @@ public class TicketServiceImpl implements TicketService {
   private final TicketRepository ticketRepository;
   private final UserServiceHelper userServiceHelper;
 
+  private UserMappingContext createContext() {
+    return new UserMappingContext(userServiceHelper);
+  }
+
   @Override
   public Page<TicketResponseDto> findAll(Integer page, Integer size) {
     Pageable pageable = PageRequest.of(page, size, DEFAULT_SORT);
     Page<Ticket> tickets = ticketRepository.findAll(pageable);
 
-    return tickets.map(ticket -> {
-      TicketResponseDto responseDto = TICKET_MAPPER.toDto(ticket);
-      responseDto.setAssignee(userServiceHelper.safeFindById(ticket.getAssigneeId()));
-      responseDto.setReporter(userServiceHelper.safeFindById(ticket.getReporterId()));
-      return responseDto;
-    });
+    UserMappingContext context = createContext();
+
+    return tickets.map(ticket ->
+        TICKET_MAPPER.toDto(ticket, context)
+    );
   }
 
   @Override
@@ -45,10 +49,7 @@ public class TicketServiceImpl implements TicketService {
     Ticket ticket = ticketRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Ticket not found"));
 
-    TicketResponseDto responseDto = TICKET_MAPPER.toDto(ticket);
-    responseDto.setAssignee(userServiceHelper.safeFindById(ticket.getAssigneeId()));
-    responseDto.setReporter(userServiceHelper.safeFindById(ticket.getReporterId()));
-    return responseDto;
+    return TICKET_MAPPER.toDto(ticket, createContext());
   }
 
   @Override
