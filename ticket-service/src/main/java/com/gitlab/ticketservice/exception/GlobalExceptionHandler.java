@@ -41,8 +41,8 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
   }
 
-  @ExceptionHandler(TicketSendMessageException.class)
-  public ResponseEntity<Map<String, Object>> handleTicketSendMessageException(TicketSendMessageException exception,
+  @ExceptionHandler(TicketMessageException.class)
+  public ResponseEntity<Map<String, Object>> handleTicketSendMessageException(TicketMessageException exception,
                                                                               HttpServletRequest request) {
 
     Map<String, Object> error = createErrorResponse(

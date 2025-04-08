@@ -1,5 +1,6 @@
 package com.gitlab.ticketservice.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -8,7 +9,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class TicketLog {
+@Builder
+public class Log {
 
   @Field("action")
   private String action;

@@ -6,7 +6,7 @@ public interface CommentService {
 
   void addComment(String ticketId, CommentCreateRequestDto requestDto);
 
-  void editComment(String ticketId, String commentId, CommentCreateRequestDto requestDto);
+  void editComment(String commentId, CommentCreateRequestDto requestDto);
 
-  void deleteComment(String ticketId, String commentId);
+  void deleteComment(String commentId);
 }

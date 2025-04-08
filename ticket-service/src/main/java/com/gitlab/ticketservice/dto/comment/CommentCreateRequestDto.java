@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class CommentCreateRequestDto {
 
-  private String comment;
+  private String text;
 }

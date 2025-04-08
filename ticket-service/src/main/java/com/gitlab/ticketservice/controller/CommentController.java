@@ -31,18 +31,17 @@ public class CommentController {
   }
 
   @Operation(description = "Update comment")
-  @PatchMapping("/{ticketId}/{commentId}")
-  public ResponseEntity<Object> updateComment(@PathVariable String ticketId,
-                                              @PathVariable String commentId,
+  @PatchMapping("/{commentId}")
+  public ResponseEntity<Object> updateComment(@PathVariable String commentId,
                                               @RequestBody CommentCreateRequestDto requestDto) {
-    commentService.editComment(ticketId, commentId,requestDto);
+    commentService.editComment(commentId, requestDto);
     return ResponseEntity.ok().build();
   }
 
   @Operation(description = "Delete comment")
-  @DeleteMapping("/{ticketId}/{commentId}")
-  public ResponseEntity<Object> deleteComment(@PathVariable String ticketId, @PathVariable String commentId) {
-    commentService.deleteComment(ticketId, commentId);
+  @DeleteMapping("/{commentId}")
+  public ResponseEntity<Object> deleteComment(@PathVariable String commentId) {
+    commentService.deleteComment(commentId);
     return ResponseEntity.ok().build();
   }
 }
