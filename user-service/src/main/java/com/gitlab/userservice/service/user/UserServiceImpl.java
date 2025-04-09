@@ -27,11 +27,11 @@ public class UserServiceImpl implements UserService {
 
   private final Keycloak keycloak;
 
+
   @Override
   public UserResponseDto getCurrentUser() {
-    UsersResource userResource = getResource();
-    UserRepresentation user = userResource.get(UserUtil.getCurrentUserId()).toRepresentation();
-
+    String userId = UserUtil.getCurrentUserId();
+    UserRepresentation user = getResource().get(userId).toRepresentation();
     return USER_MAPPER.toDto(user);
   }
 

@@ -1,0 +1,202 @@
+{
+  "id": "support-application-user",
+  "realm": "support-application-user",
+  "displayName": "Support Application User Realm",
+  "sslRequired": "external",
+  "enabled": true,
+  "resetPasswordAllowed": true,
+  "bruteForceProtected": true,
+  "editUsernameAllowed": false,
+  "registrationAllowed": false,
+  "duplicateEmailsAllowed": false,
+  "defaultRoles": ["ROLE_USER"],
+
+  "roles": {
+    "realm": [
+      {
+        "name": "ROLE_USER",
+        "description": "Regular user role"
+      },
+      {
+        "name": "ROLE_ADMIN",
+        "description": "Administrator role"
+      },
+      {
+        "name": "ROLE_SUPPORT",
+        "description": "Support staff role"
+      }
+    ]
+  },
+
+  "clients": [
+    {
+      "clientId": "authentication-client-id",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "486oEFv2drJAXo6j4XWHXgHpiw0o4Omt",
+      "redirectUris": ["http://localhost:8090/*"],
+      "webOrigins": ["*"],
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "serviceAccountsEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "attributes": {
+        "access.token.lifespan": "14400",
+        "refresh.token.lifespan": "43200"
+      },
+      "defaultClientScopes": [
+        "id",
+        "roles"
+      ]
+    },
+    {
+      "clientId": "admin-cli",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "J5qKuyPLZoakRJuGPMZ2SUqwW2hiX1es",
+      "redirectUris": ["http://localhost:8090/*"],
+      "webOrigins": ["*"],
+      "protocol": "openid-connect",
+      "serviceAccountsEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "defaultClientScopes": [
+        "id",
+        "roles"
+      ]
+    }
+  ],
+
+  "users": [
+    {
+      "username": "admin",
+      "email": "admin@example.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Admin",
+      "lastName": "User",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["ROLE_ADMIN", "ROLE_SUPPORT","ROLE_USER"]
+    },
+    {
+      "username": "support",
+      "email": "support@example.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Support",
+      "lastName": "User",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["ROLE_SUPPORT", "ROLE_USER"]
+    },
+    {
+      "username": "user",
+      "email": "user@example.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Regular",
+      "lastName": "User",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["ROLE_USER"]
+    }
+  ],
+  "clientScopes": [
+    {
+      "name": "roles",
+      "description": "Role scope mapping",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true"
+      },
+      "protocolMappers": [
+        {
+          "name": "realm roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "roles",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    },
+    {
+      "name": "id",
+      "description": "User ID",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true"
+      },
+      "protocolMappers": [
+        {
+          "name": "user id",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-property-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "id",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "id",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    },
+    {
+      "name": "user-management",
+      "description": "User management permissions",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true"
+      },
+      "protocolMappers": [
+        {
+          "name": "user management permissions",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "user_management",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    }
+  ],
+  "defaultDefaultClientScopes": [
+    "id",
+    "roles"
+  ]
+}

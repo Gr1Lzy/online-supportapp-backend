@@ -5,13 +5,16 @@ services:
     environment:
       KEYCLOAK_ADMIN: ${KEYCLOAK_USERNAME}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_PASSWORD}
+      KEYCLOAK_IMPORT: /opt/keycloak/data/import/realm-config.json
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://keycloak-db:5432/${POSTGRESQL_DATABASE}
       KC_DB_USERNAME: ${POSTGRESQL_USERNAME}
       KC_DB_PASSWORD: ${POSTGRESQL_PASSWORD}
     ports:
       - "8080:8080"
-    command: ["start-dev"]
+    volumes:
+      - ../realm-config.json:/opt/keycloak/data/import/realm-config.json
+    command: ["start-dev", "--import-realm"]
     depends_on:
       - keycloak-db
 
