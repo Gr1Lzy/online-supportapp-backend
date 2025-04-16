@@ -8,6 +8,10 @@ public interface TicketService {
 
   Page<TicketResponseDto> findAll(Integer page, Integer size);
 
+  Page<TicketResponseDto> findAllCreatedByCurrentUser(Integer page, Integer size);
+
+  Page<TicketResponseDto> findAllAssignedOnCurrentUser(Integer page, Integer size);
+
   TicketResponseDto findById(String ticketId);
 
   void create(TicketRequestDto requestDto);

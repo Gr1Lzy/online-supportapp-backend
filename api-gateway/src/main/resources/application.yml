@@ -11,12 +11,12 @@ spring:
           lower-case-service-id: true
       routes:
         - id: user-service-route
-          uri: http://localhost:1111
+          uri: lb://user-service
           predicates:
             - Path=/api/users/**, /api/auth/**, /api/admin/**
 
         - id: ticket-service-route
-          uri: http://localhost:2222
+          uri: lb://ticket-service
           predicates:
             - Path=/api/tickets/**
 

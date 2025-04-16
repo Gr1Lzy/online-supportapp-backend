@@ -53,4 +53,22 @@ public class TicketController {
     ticketService.assignOnMe(ticketId);
     return ResponseEntity.ok().build();
   }
+
+  @Operation(summary = "Find tickets created by current User")
+  @GetMapping("/my-created")
+  public ResponseEntity<Page<TicketResponseDto>> findAllCreatedByCurrentUser(
+      @RequestParam(defaultValue = "0") Integer page,
+      @RequestParam(defaultValue = "10") Integer size
+  ) {
+    return ResponseEntity.ok(ticketService.findAllCreatedByCurrentUser(page, size));
+  }
+
+  @Operation(summary = "Find tickets assigned on current User")
+  @GetMapping("/my-assigned")
+  public ResponseEntity<Page<TicketResponseDto>> findAllAssignedOnCurrentUser(
+      @RequestParam(defaultValue = "0") Integer page,
+      @RequestParam(defaultValue = "10") Integer size
+  ) {
+    return ResponseEntity.ok(ticketService.findAllAssignedOnCurrentUser(page, size));
+  }
 }

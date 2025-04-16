@@ -45,6 +45,30 @@ public class TicketServiceImpl implements TicketService {
   }
 
   @Override
+  public Page<TicketResponseDto> findAllCreatedByCurrentUser(Integer page, Integer size) {
+    String currentUserId = UserUtil.getCurrentUserId();
+
+    Pageable pageable = PageRequest.of(page, size, DEFAULT_SORT);
+    Page<Ticket> tickets = ticketRepository.findAllByReporterId(currentUserId, pageable);
+
+    UserMappingContext context = createContext();
+    return tickets.map(ticket ->
+        TICKET_MAPPER.toDto(ticket, context)
+    );
+  }
+
+  @Override
+  public Page<TicketResponseDto> findAllAssignedOnCurrentUser(Integer page, Integer size) {
+    String currentUserId = UserUtil.getCurrentUserId();
+
+    Pageable pageable = PageRequest.of(page, size, DEFAULT_SORT);
+    Page<Ticket> tickets = ticketRepository.findAllByAssigneeId(currentUserId, pageable);
+
+    UserMappingContext context = createContext();
+    return tickets.map(ticket -> TICKET_MAPPER.toDto(ticket, context));
+  }
+
+  @Override
   public TicketResponseDto findById(String id) {
     Ticket ticket = ticketRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Ticket not found"));
