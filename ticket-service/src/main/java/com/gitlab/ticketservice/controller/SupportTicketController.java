@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,7 @@ public class SupportTicketController {
 
   @Operation(description = "Assign ticket on user")
   @PatchMapping("/{ticketId}")
-  public void assignOnUser(@PathVariable String ticketId, UserIdRequestDto requestDto) {
+  public void assignOnUser(@PathVariable String ticketId, @RequestBody UserIdRequestDto requestDto) {
     supportTicketService.assignOnUser(ticketId, requestDto);
   }
 
@@ -31,7 +32,7 @@ public class SupportTicketController {
 
   @Operation(description = "Update ticket status")
   @PatchMapping("/{ticketId}/status-update")
-  public void updateStatus(@PathVariable String ticketId, StatusRequestDto status) {
+  public void updateStatus(@PathVariable String ticketId, @RequestBody StatusRequestDto status) {
     supportTicketService.updateStatus(ticketId, status);
   }
 }
