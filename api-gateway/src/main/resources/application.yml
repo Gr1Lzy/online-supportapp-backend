@@ -18,7 +18,7 @@ spring:
         - id: ticket-service-route
           uri: lb://ticket-service
           predicates:
-            - Path=/api/tickets/**, /api/support/**
+            - Path=/api/tickets/**, /api/support/**, /api/comments/**
 
 server:
   port: 8090
