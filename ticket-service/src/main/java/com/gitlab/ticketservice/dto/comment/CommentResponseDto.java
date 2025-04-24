@@ -7,6 +7,9 @@ import lombok.Data;
 @Data
 public class CommentResponseDto {
 
+  @JsonProperty("id")
+  private String id;
+
   @JsonProperty("text")
   private String text;
 

@@ -59,6 +59,7 @@ public interface TicketMapper {
     }
 
     CommentResponseDto dto = new CommentResponseDto();
+    dto.setId(comment.getId());
     dto.setText(comment.getText());
     dto.setCreatedDate(comment.getCreatedAt().toString());
 
