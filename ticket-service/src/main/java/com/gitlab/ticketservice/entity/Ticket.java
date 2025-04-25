@@ -37,6 +37,9 @@ public class Ticket extends AbstractEntity {
   @Field("logs")
   private List<Log> logs;
 
+  @Field("is_ticket_older_than_two_weeks")
+  private Boolean isTicketOlderThanTwoWeeks;
+
   public Ticket init() {
     status = TicketStatus.OPENED;
     comments = new ArrayList<>();

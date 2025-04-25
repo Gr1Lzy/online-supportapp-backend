@@ -5,12 +5,18 @@ import com.gitlab.ticketservice.dto.ticket.TicketResponseDto;
 import org.springframework.data.domain.Page;
 
 public interface TicketService {
-
+  
   Page<TicketResponseDto> findAll(Integer page, Integer size);
+
+  Page<TicketResponseDto> findArchivedTickets(Integer page, Integer size);
 
   Page<TicketResponseDto> findAllCreatedByCurrentUser(Integer page, Integer size);
 
+  Page<TicketResponseDto> findArchivedTicketsCreatedByCurrentUser(Integer page, Integer size);
+
   Page<TicketResponseDto> findAllAssignedOnCurrentUser(Integer page, Integer size);
+
+  Page<TicketResponseDto> findArchivedTicketsAssignedOnCurrentUser(Integer page, Integer size);
 
   TicketResponseDto findById(String ticketId);
 

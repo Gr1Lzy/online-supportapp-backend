@@ -36,6 +36,9 @@ public class TicketResponseDto {
   @JsonProperty("logs")
   private List<LogResponseDto> logs;
 
+  @JsonProperty("is_ticket_older_than_two_weeks")
+  private Boolean isTicketOlderThanTwoWeeks;
+
   @JsonProperty("created_at")
   private String createdAt;
 

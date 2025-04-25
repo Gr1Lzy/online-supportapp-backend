@@ -34,11 +34,18 @@ public class TicketController {
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
-  @Operation(summary = "Find all tickets")
+  @Operation(summary = "Find all active tickets (not archived)")
   @GetMapping
   public ResponseEntity<Page<TicketResponseDto>> findAll(@RequestParam(defaultValue = "0") Integer page,
                                                          @RequestParam(defaultValue = "10") Integer size) {
     return ResponseEntity.ok(ticketService.findAll(page, size));
+  }
+
+  @Operation(summary = "Find archived tickets (auto-closed after 2 weeks)")
+  @GetMapping("/archived")
+  public ResponseEntity<Page<TicketResponseDto>> findArchivedTickets(@RequestParam(defaultValue = "0") Integer page,
+                                                                     @RequestParam(defaultValue = "10") Integer size) {
+    return ResponseEntity.ok(ticketService.findArchivedTickets(page, size));
   }
 
   @Operation(summary = "Find ticket by id")
@@ -54,7 +61,7 @@ public class TicketController {
     return ResponseEntity.ok().build();
   }
 
-  @Operation(summary = "Find tickets created by current User")
+  @Operation(summary = "Find active tickets created by current User")
   @GetMapping("/my-created")
   public ResponseEntity<Page<TicketResponseDto>> findAllCreatedByCurrentUser(
       @RequestParam(defaultValue = "0") Integer page,
@@ -63,12 +70,30 @@ public class TicketController {
     return ResponseEntity.ok(ticketService.findAllCreatedByCurrentUser(page, size));
   }
 
-  @Operation(summary = "Find tickets assigned on current User")
+  @Operation(summary = "Find archived tickets created by current User")
+  @GetMapping("/my-created/archived")
+  public ResponseEntity<Page<TicketResponseDto>> findArchivedTicketsCreatedByCurrentUser(
+      @RequestParam(defaultValue = "0") Integer page,
+      @RequestParam(defaultValue = "10") Integer size
+  ) {
+    return ResponseEntity.ok(ticketService.findArchivedTicketsCreatedByCurrentUser(page, size));
+  }
+
+  @Operation(summary = "Find active tickets assigned to current User")
   @GetMapping("/my-assigned")
   public ResponseEntity<Page<TicketResponseDto>> findAllAssignedOnCurrentUser(
       @RequestParam(defaultValue = "0") Integer page,
       @RequestParam(defaultValue = "10") Integer size
   ) {
     return ResponseEntity.ok(ticketService.findAllAssignedOnCurrentUser(page, size));
+  }
+
+  @Operation(summary = "Find archived tickets assigned to current User")
+  @GetMapping("/my-assigned/archived")
+  public ResponseEntity<Page<TicketResponseDto>> findArchivedTicketsAssignedOnCurrentUser(
+      @RequestParam(defaultValue = "0") Integer page,
+      @RequestParam(defaultValue = "10") Integer size
+  ) {
+    return ResponseEntity.ok(ticketService.findArchivedTicketsAssignedOnCurrentUser(page, size));
   }
 }

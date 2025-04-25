@@ -3,7 +3,6 @@ package com.gitlab.ticketservice.service;
 import com.gitlab.ticketservice.dto.comment.CommentCreateRequestDto;
 import com.gitlab.ticketservice.entity.Comment;
 import com.gitlab.ticketservice.entity.Ticket;
-import com.gitlab.ticketservice.entity.TicketStatus;
 import com.gitlab.ticketservice.exception.EntityNotFoundException;
 import com.gitlab.ticketservice.exception.TicketMessageException;
 import com.gitlab.ticketservice.repository.CommentRepository;
@@ -17,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Objects;
 
 import static com.gitlab.ticketservice.mapper.CommentMapper.COMMENT_MAPPER;
+import static com.gitlab.ticketservice.util.TicketSchedulerUtil.checkTicketStatus;
 import static com.gitlab.ticketservice.util.UserUtil.getCurrentUserId;
 
 @Service
@@ -28,7 +28,6 @@ public class CommentServiceImpl implements CommentService {
   private static final String COMMENT_DELETE_LOG = "Deleted comment";
   private static final String TICKET_NOT_FOUND = "Ticket not found";
   private static final String COMMENT_NOT_FOUND = "Comment not found";
-  private static final String TICKET_CLOSED = "Ticket is closed";
   private static final String NOT_COMMENT_OWNER = "You can't edit or delete comments that don't belong to you";
 
   private final CommentRepository commentRepository;
@@ -101,11 +100,5 @@ public class CommentServiceImpl implements CommentService {
   private Comment getCommentIfExist(String commentId) {
     return commentRepository.findById(commentId)
         .orElseThrow(() -> new EntityNotFoundException(COMMENT_NOT_FOUND));
-  }
-
-  private void checkTicketStatus(Ticket ticket) {
-    if (ticket.getStatus() == TicketStatus.CLOSED) {
-      throw new TicketMessageException(TICKET_CLOSED);
-    }
   }
 }

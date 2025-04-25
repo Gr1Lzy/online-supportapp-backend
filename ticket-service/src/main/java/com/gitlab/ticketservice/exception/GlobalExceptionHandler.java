@@ -99,6 +99,20 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(errorResponse);
   }
 
+  @ExceptionHandler(AuthenticationException.class)
+  public ResponseEntity<Map<String, Object>> handleInvalidToken(AuthenticationException exception,
+                                                                HttpServletRequest request) {
+
+    Map<String, Object> errorResponse = createErrorResponse(
+        HttpStatus.UNAUTHORIZED,
+        exception.getClass().getSimpleName(),
+        "Invalid token",
+        request
+    );
+
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+  }
+
   private Map<String, Object> createErrorResponse(HttpStatus status, String error, Object message,
                                                   HttpServletRequest request) {
 

@@ -126,7 +126,8 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
   }
 
-  private Map<String, Object> createErrorResponse(HttpStatus status, String error,
+  private Map<String, Object> createErrorResponse(HttpStatus status,
+                                                  String error,
                                                   Object message,
                                                   HttpServletRequest request) {
 

@@ -5,8 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Component
 public class TicketScheduler {
@@ -20,12 +19,8 @@ public class TicketScheduler {
 
   @Scheduled(cron = "0 0 0 * * ?")
   public void closeOldTickets() {
-    Calendar calendar = Calendar.getInstance();
-    calendar.add(Calendar.WEEK_OF_YEAR, -2);
-    Date twoWeeksAgo = calendar.getTime();
+    LocalDateTime twoWeeksAgo = LocalDateTime.now().minusWeeks(2);
 
-    Date currentDate = new Date();
-
-    ticketRepository.setStatusClosedOnTicketWhereCreatedAtMoreThanTwoWeeks(twoWeeksAgo, currentDate);
+    ticketRepository.setTicketOlderThanTwoWeeks(twoWeeksAgo);
   }
 }

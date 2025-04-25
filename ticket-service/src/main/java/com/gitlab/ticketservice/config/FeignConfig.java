@@ -1,5 +1,6 @@
 package com.gitlab.ticketservice.config;
 
+import com.gitlab.ticketservice.exception.AuthenticationException;
 import feign.RequestInterceptor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +21,12 @@ public class FeignConfig {
   public RequestInterceptor requestInterceptor() {
     return requestTemplate -> {
       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-      requestTemplate.header("Authorization", "Bearer "
-          + ((JwtAuthenticationToken) authentication).getToken().getTokenValue());
+
+      if (authentication instanceof JwtAuthenticationToken jwtToken) {
+        requestTemplate.header("Authorization", "Bearer " + jwtToken.getToken().getTokenValue());
+      } else {
+        throw new AuthenticationException("Invalid Token");
+      }
     };
   }
 }
